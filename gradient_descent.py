@@ -1,24 +1,10 @@
-import numpy as np
-from plot_data import plot_data
 from compute_cost import compute_cost
+import numpy as np
 
-data = np.loadtxt('ex1data1.txt', delimiter=',')
-
-X = data[:, 0].reshape(-1, 1)
-y = data[:, 1].reshape(-1, 1)
-
-m = len(y)
-
-plot_data(X, y)
-
-X = np.c_[np.ones((m, 1)), data[:, 0]]
-theta = np.zeros((2, 1))
-
-iterations = 1500
-alpha = 0.01
-
-print('\nTesting the cost function ...\n')
-
-J = compute_cost(X, y, theta)
-
-J1 = compute_cost(X, y, np.mat('-1 ; 2'))
+def gradient_descent(X: np.array, y: np.array, theta: np.array, alpha: float, num_iters: int):
+    m = len(y)
+    J_history = np.zeros((num_iters, 1))
+    for iter in range(num_iters):
+        theta = theta - (alpha / m) * X.T.dot((X.dot(theta) - y))
+        J_history[iter] = compute_cost(X, y, theta)
+    return [theta, J_history]
