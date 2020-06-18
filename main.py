@@ -2,7 +2,9 @@ import numpy as np
 from matplotlib import pyplot as plt
 from plot_data import plot_data
 from compute_cost import compute_cost
+from normal_equation import normal_equation
 from gradient_descent import gradient_descent
+from feature_normalize import feature_normalize
 
 data = np.loadtxt('ex1data1.txt', delimiter=',')
 
@@ -49,3 +51,31 @@ print('For population = 35,000, we predict a profit of %f\n' % np.sum(predict1*1
 predict2 = np.array([1, 7]).dot(theta)
 
 print('For population = 70,000, we predict a profit of %f\n' % np.sum(predict2*10000))
+
+data = np.loadtxt('ex1data1.txt', delimiter=',')
+
+X = data[:, 0].reshape(-1, 1)
+y = data[:, 1].reshape(-1, 1)
+
+m = len(y)
+
+X = np.c_[np.ones((m, 1)), data[:, 0]]
+
+norm_theta = normal_equation(X, y)
+
+predict1 = np.array([1, 3.5]).dot(theta)
+
+print('Normal Equation: For population = 35,000, we predict a profit of %f\n' % np.sum(predict1*10000))
+
+predict2 = np.array([1, 7]).dot(theta)
+
+print('Normal Equation: For population = 70,000, we predict a profit of %f\n' % np.sum(predict2*10000))
+
+data = np.loadtxt('ex1data1.txt', delimiter=',')
+
+X = data[:, 0].reshape(-1, 1)
+y = data[:, 1].reshape(-1, 1)
+
+[X_norm, mu, sigma] = feature_normalize(X)
+
+print(X_norm)
